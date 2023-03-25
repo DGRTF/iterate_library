@@ -271,3 +271,13 @@ it.each([
   const nativeResult = array.reduce((prev, x) => prev + x.rating, 0);
   expect(nativeResult).toEqual(expectedResult);
 });
+
+test('enumerableToMap', () => {
+  const expectedResult = [
+    [1, { rating: 5, numbers: [5, 55, 555] }],
+    [0, { rating: 4, numbers: [4, 44, 444] }],
+  ]
+  const actualMap = getArray().enumerableToMap(x => x.rating % 2, x => x);
+
+  expect([...actualMap]).toEqual(expectedResult);
+})
