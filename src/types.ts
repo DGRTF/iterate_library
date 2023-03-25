@@ -24,11 +24,11 @@ interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableGroupToMap: typeof enumerableGroupToMap;
   enumerableForEach: typeof enumerableForEach;
   enumerableReduceStrict: typeof enumerableReduceStrict;
-  enumerableMap<TNewItem>(this: Iterable<TItem>, convert: (item: TItem) => TNewItem): Generator<TNewItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
-  enumerableFilter<TItem>(this: Iterable<TItem>, predicate: (item: TItem) => any): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
-  enumerableFilterStrict<TItem>(this: Iterable<TItem>, predicate: (item: TItem) => boolean): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
-  enumerableFlatMap<TItem, TResultItem>(this: Iterable<TItem>, getInnerIterator: (item: TItem) => Iterable<TResultItem>): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
-  enumerableForEachLazy<TItem>(this: Iterable<TItem>, functionForEveryItem: (item: TItem) => void): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableMap<TNewItem>(this: Iterable<TItem>, convert: (item: TItem, iterationCount: number) => TNewItem): Generator<TNewItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableFilter<TItem>(this: Iterable<TItem>, predicate: (item: TItem, iterationCount: number) => any): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableFilterStrict<TItem>(this: Iterable<TItem>, predicate: (item: TItem, iterationCount: number) => boolean): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableFlatMap<TItem, TResultItem>(this: Iterable<TItem>, getInnerIterator: (item: TItem, iterationCount: number) => Iterable<TResultItem>): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableForEachLazy<TItem>(this: Iterable<TItem>, functionForEveryItem: (item: TItem, iterationCount: number) => void): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
 
   enumerableReduce<TItem, TInitValue, TResult>(this: Iterable<TItem>,
     getNewValue: (previousResult: TItem | TInitValue | TResult | undefined, item: TItem) => TResult, initialValue?: TInitValue | undefined | TResult)

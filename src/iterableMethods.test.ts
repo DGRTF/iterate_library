@@ -280,4 +280,39 @@ test('enumerableToMap', () => {
   const actualMap = getArray().enumerableToMap(x => x.rating % 2, x => x);
 
   expect([...actualMap]).toEqual(expectedResult);
-})
+});
+
+test('check counters', () => {
+  const array = getArray();
+
+  const checkCount = (item: IRatingNumbers, count: number) => {
+    if (item.rating - 1 !== count)
+      throw new Error("Count is not valid");
+
+    return false;
+  };
+
+  const checkCountForFlatMap = (item: IRatingNumbers, count: number) => {
+    checkCount(item, count);
+
+    return item.numbers;
+  };
+
+  const checkCountForReduce = (prev: boolean, item: IRatingNumbers, count: number) => checkCount(item, count);
+
+  array.enumerableForEach(checkCount);
+  array.enumerableForEachLazy(checkCount).enumerableToArray();
+  array.enumerableSome(checkCount);
+  array.enumerableSomeStrict(checkCount);
+  array.enumerableEvery(checkCount);
+  array.enumerableEveryStrict(checkCount);
+  array.enumerableFilter(checkCount).enumerableToArray();
+  array.enumerableFilterStrict(checkCount).enumerableToArray();
+  array.enumerableToMap(checkCount, checkCount);
+  array.enumerableMap(checkCount).enumerableToArray();
+  array.enumerableGroupToArray(checkCount);
+  array.enumerableGroupToMap(checkCount);
+  // array.enumerableReduce(checkCountForReduce);
+  array.enumerableReduceStrict(checkCountForReduce, false);
+  array.enumerableFlatMap(checkCountForFlatMap);
+});

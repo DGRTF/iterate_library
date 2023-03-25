@@ -14,7 +14,10 @@ export default <TMethods extends {}>(methods: TMethods) =>
     };
   }
 
-function* innerIterator<TItem, TResultItem>(it: Iterable<TItem>, getInnerIterator: (item: TItem) => Iterable<TResultItem>) {
-  for (const i of it)
-    yield* iterator(getInnerIterator(i));
+function* innerIterator<TItem, TResultItem>(it: Iterable<TItem>, getInnerIterator: (item: TItem, iterationCount: number) => Iterable<TResultItem>) {
+  let iterationCount = 0;
+  for (const i of it) {
+    yield* iterator(getInnerIterator(i, iterationCount));
+    iterationCount++;
+  }
 }
