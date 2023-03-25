@@ -170,7 +170,7 @@ test('enumerableForEachLazy', () => {
   expect(array.enumerableToArray()).toEqual(expectedResult);
 });
 
-test('enumerableForEachFinal', () => {
+test('enumerableForEach', () => {
   const array: ReturnType<typeof getArray> = getArray();
 
   const expectedResult = [
