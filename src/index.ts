@@ -1,7 +1,7 @@
 import enumerableCount from "./enumerableCount";
 import enumerableEvery from "./enumerableEvery";
 import enumerableEveryStrict from "./enumerableEveryStrict";
-import enumerableForEachFinal from "./enumerableForEachFinal";
+import enumerableForEach from "./enumerableForEachFinal";
 import enumerableGroupToArray from "./enumerableGroupToArray";
 import enumerableGroupToMap from "./enumerableGroupToMap";
 import enumerableReduce from "./enumerableReduce";
@@ -16,7 +16,7 @@ import getEnumerableFilterStrict from "./functionsWhichReturnIterator/getEnumera
 import getEnumerableFlatMap from "./functionsWhichReturnIterator/getEnumerableFlatMap";
 import getEnumerableForEachLazy from "./functionsWhichReturnIterator/getEnumerableForEachLazy";
 import getEnumerableMap from "./functionsWhichReturnIterator/getEnumerableMap";
-import { ILibraryMethods } from "./types";
+import { type ILibraryMethods } from "./types";
 
 // export const getObjectCopyWithIterableMethods = <TObject extends Iterable<TItem>, TItem>(object: TObject) => {
 //   return Array.isArray(object) ? addIterableAndYourMethodsInObject([...object], {}) :
@@ -48,7 +48,7 @@ const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TIte
     enumerableToArray,
     enumerableToSet,
     enumerableToMap,
-    enumerableForEachFinal,
+    enumerableForEach,
     enumerableForEachLazy: getEnumerableForEachLazy(libraryMethods),
     enumerableFilter: getEnumerableFilter(libraryMethods),
     enumerableMap: getEnumerableMap(libraryMethods),

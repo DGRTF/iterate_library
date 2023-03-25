@@ -196,7 +196,7 @@ test('enumerableForEachFinal', () => {
     },
   ];
 
-  array.enumerableForEachFinal(x => x.numbers = []);
+  array.enumerableForEach(x => x.numbers = []);
 
   expect(array.enumerableToArray()).toEqual(expectedResult);
 });
