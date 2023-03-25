@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ES6",
     "declaration": true,
     "outDir": "./lib",
-    "strict": true
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "removeComments": true,
   },
   "include": [
     "src"
