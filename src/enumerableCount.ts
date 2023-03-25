@@ -1,4 +1,4 @@
-export default function <TItem>(this: Iterable<TItem>): number {
+export default function enumerableCount<TItem>(this: Iterable<TItem>): number {
   if (Array.isArray(this))
     return this.length;
 

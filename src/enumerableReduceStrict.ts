@@ -1,4 +1,4 @@
-export default function <TItem, TInitValue>(
+export default function enumerableReduceStrict<TItem, TInitValue>(
   this: Iterable<TItem>,
   getNewValue: (previousResult: TInitValue, item: TItem) => TInitValue, initialValue: TInitValue): TInitValue {
   let iterateResult = initialValue;

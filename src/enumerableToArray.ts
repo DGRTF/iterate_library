@@ -1,3 +1,3 @@
-export default function <TItem>(this: Iterable<TItem>): TItem[] {
+export default function enumerableToArray<TItem>(this: Iterable<TItem>): TItem[] {
   return [...this];
 }

@@ -8,7 +8,7 @@ import type enumerableToMap from "./enumerableToMap";
 import type enumerableToSet from "./enumerableToSet";
 import type enumerableGroupToArray from "./enumerableGroupToArray";
 import type enumerableGroupToMap from "./enumerableGroupToMap";
-import type enumerableForEach from "./enumerableForEachFinal";
+import type enumerableForEach from "./enumerableForEach";
 import type enumerableReduceStrict from "./enumerableReduceStrict";
 
 interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
