@@ -1,8 +1,17 @@
 {
   "name": "iterate_library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Iterate methods for iterable objects",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/DGRTF/iterate_library#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DGRTF/iterate_library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DGRTF/iterate_library/issues"
+  },
   "files": [
     "lib/**/*"
   ],
@@ -18,7 +27,7 @@
     "iterate_library"
   ],
   "author": "Unknown",
-  "license": "Apache",
+  "license": "Unlicense",
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.18.6",

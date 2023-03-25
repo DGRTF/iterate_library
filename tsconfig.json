@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES6",
+    "module": "commonjs",
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
     "verbatimModuleSyntax": true,
+    "allowUnusedLabels": false,
     "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
   },
   "include": [
     "src"
