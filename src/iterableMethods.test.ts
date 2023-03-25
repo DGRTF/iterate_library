@@ -125,8 +125,10 @@ it.each([
   [getEmptyArray(), []],
 ])('enumerableFlatMap', (array: ReturnType<typeof getArray>, expectedResult: number[]) => {
   const result = array.enumerableFlatMap(x => x.numbers).enumerableToArray();
+  const resultNative = array.flatMap(x => x.numbers);
 
   expect(result).toEqual(expectedResult);
+  expect(result).toEqual(resultNative);
 });
 
 it.each([
