@@ -318,6 +318,8 @@ test('check counters', () => {
   // array.enumerableReduce(checkCountForReduce);
   array.enumerableReduceStrict(checkCountForReduce, false);
   array.enumerableFlatMap(checkCountForFlatMap);
+  array.enumerableFind(checkCount);
+  array.enumerableFindStrict(checkCount);
 });
 
 it.each([
@@ -325,13 +327,9 @@ it.each([
   [[6, 5, 3, 1, 8, 7, 2, 4], [1, 2, 3, 4, 5, 6, 7, 8], false, true],
   [[], [], true, false]
 ])('enumerableMergeSort', (array: number[], expectedResult: number[], expectedEvery: boolean, expectedSome: boolean) => {
-  let count = 0;
   const newArray = addIterableMethodsInArray(array);
-  const actual = newArray.enumerableMergeSort((a, b) => {
-    count++;
-    return a - b;
-  });
 
+  const actual = newArray.enumerableMergeSort((a, b) => a - b);
   const every = actual.enumerableEvery(x => x > 5);
   const some = actual.enumerableSome(x => x > 5);
 
@@ -362,4 +360,59 @@ it.each([
     .enumerableToArray();
 
   expect(result).toEqual(expectedResult);
+});
+
+it.each([
+  [getArray(), 1, true],
+  [getEmptyArray(), undefined, false],
+])('enumerableFirst', (array: ReturnType<typeof getArray>, expectedResultItem: number | undefined, expectedResultIsFind: boolean) => {
+  const [item, isFind] = array
+    .enumerableMap(x => x.rating)
+    .enumerableFirst();
+
+  expect(item).toBe(expectedResultItem);
+  expect(isFind).toBe(expectedResultIsFind);
+});
+
+it.each([
+  [getArray(), 1, false],
+  [getEmptyArray(), 0, true],
+])('enumerableFirstFluent', (array: ReturnType<typeof getArray>, expectedResultWas: number, expectedResultNotWas: boolean) => {
+  let resultWas = 0;
+  let resultNotWas = false;
+
+  array
+    .enumerableFirstFluent()
+    .IfFound(x => resultWas = x.rating)
+    .IfNotFound(() => resultNotWas = true);
+
+  expect(resultWas).toBe(expectedResultWas);
+  expect(resultNotWas).toBe(expectedResultNotWas);
+});
+
+it.each([
+  [getArray(), 4, x => x > 3],
+  [getEmptyArray(), undefined, x => x > 3],
+  [getArray(), 1, x => x],
+])('enumerableFind', (array: ReturnType<typeof getArray>, expectedResult: number | undefined, predicate: (item: any) => any) => {
+  const enumerableResult = array
+    .enumerableMap(x => x.rating)
+    .enumerableFind(predicate);
+
+  const nativeResult = array.map(x => x.rating).find(predicate);
+
+  expect(enumerableResult).toBe(expectedResult);
+  expect(nativeResult).toBe(expectedResult);
+});
+
+it.each([
+  [getArray(), 4, x => x > 3],
+  [getEmptyArray(), undefined, x => x > 3],
+  [getArray(), undefined, x => x],
+])('enumerableFindStrict', (array: ReturnType<typeof getArray>, expectedResult: number | undefined, predicate: (item: any) => boolean) => {
+  const enumerableResult = array
+    .enumerableMap(x => x.rating)
+    .enumerableFindStrict(predicate);
+
+  expect(enumerableResult).toBe(expectedResult);
 });

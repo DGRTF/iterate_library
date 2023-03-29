@@ -1,6 +1,10 @@
 import enumerableCount from "./enumerableCount";
 import enumerableEvery from "./enumerableEvery";
 import enumerableEveryStrict from "./enumerableEveryStrict";
+import enumerableFind from "./enumerableFind";
+import enumerableFindStrict from "./enumerableFindStrict";
+import enumerableFirst from "./enumerableFirst";
+import enumerableFirstFluent from "./enumerableFirstFluent";
 import enumerableForEach from "./enumerableForEach";
 import enumerableGroupToArray from "./enumerableGroupToArray";
 import enumerableGroupToMap from "./enumerableGroupToMap";
@@ -52,6 +56,10 @@ const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TIte
     enumerableToSet,
     enumerableToMap,
     enumerableForEach,
+    enumerableFirst,
+    enumerableFirstFluent,
+    enumerableFind,
+    enumerableFindStrict,
     enumerableForEachLazy: getEnumerableForEachLazy(libraryMethods),
     enumerableFilter: getEnumerableFilter(libraryMethods),
     enumerableMap: getEnumerableMap(libraryMethods),

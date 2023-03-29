@@ -10,6 +10,10 @@ import type enumerableGroupToArray from "./enumerableGroupToArray";
 import type enumerableGroupToMap from "./enumerableGroupToMap";
 import type enumerableForEach from "./enumerableForEach";
 import type enumerableReduceStrict from "./enumerableReduceStrict";
+import type enumerableFirst from "./enumerableFirst";
+import type enumerableFirstFluent from "./enumerableFirstFluent";
+import type enumerableFind from "./enumerableFind";
+import type enumerableFindStrict from "./enumerableFindStrict";
 
 interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableSome: typeof enumerableSome;
@@ -24,7 +28,11 @@ interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableGroupToMap: typeof enumerableGroupToMap;
   enumerableForEach: typeof enumerableForEach;
   enumerableReduceStrict: typeof enumerableReduceStrict;
-  enumerableMap<TNewItem>(this: Iterable<TItem>, convert: (item: TItem, iterationCount: number) => TNewItem): Generator<TNewItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableFirst: typeof enumerableFirst;
+  enumerableFirstFluent: typeof enumerableFirstFluent;
+  enumerableFind: typeof enumerableFind;
+  enumerableFindStrict: typeof enumerableFindStrict;
+  enumerableMap<TNewItem>(this: Iterable<TItem>, convert: (item: TItem, iterationCount: number) => TNewItem): Generator<TNewItem, void, unknown> & TMethods & ILibraryMethods<TNewItem, TMethods>;
   enumerableFilter<TItem>(this: Iterable<TItem>, predicate: (item: TItem, iterationCount: number) => any): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
   enumerableFilterStrict<TItem>(this: Iterable<TItem>, predicate: (item: TItem, iterationCount: number) => boolean): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
   enumerableFlatMap<TItem, TResultItem>(this: Iterable<TItem>, getInnerIterator: (item: TItem, iterationCount: number) => Iterable<TResultItem>): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;

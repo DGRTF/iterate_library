@@ -4,7 +4,7 @@ export default function enumerableCount<TItem>(this: Iterable<TItem>): number {
 
   let count = 0;
 
-  for (const item of this)
+  for (const { } of this)
     count++;
 
   return count;
