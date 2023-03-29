@@ -3,7 +3,7 @@ import getItemWithoutNext from './getItemWithoutNext';
 import lastValue from "./lastValue";
 
 export default function <TItem, TOutItem, TMethods extends {}>
-  (enumerableObject: Iterable<TItem>, continueIterate: (item: TItem, iterationCount: number) => IteratorYieldResult<TOutItem> | true, methods: TMethods)
+  (enumerableObject: Iterable<TItem>, continueIterate: (item: TItem, iterationCount: number) => IteratorYieldResult<TOutItem> | boolean, methods: TMethods)
   : Generator<TOutItem, void> & TMethods {
   let isContinue = true;
 
@@ -25,6 +25,9 @@ export default function <TItem, TOutItem, TMethods extends {}>
 
         if (resultContinue === true)
           continue;
+
+        if (resultContinue === false)
+          return lastValue;
 
         return {
           ...result,

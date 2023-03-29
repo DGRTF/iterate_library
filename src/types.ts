@@ -29,6 +29,9 @@ interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableFilterStrict<TItem>(this: Iterable<TItem>, predicate: (item: TItem, iterationCount: number) => boolean): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
   enumerableFlatMap<TItem, TResultItem>(this: Iterable<TItem>, getInnerIterator: (item: TItem, iterationCount: number) => Iterable<TResultItem>): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
   enumerableForEachLazy<TItem>(this: Iterable<TItem>, functionForEveryItem: (item: TItem, iterationCount: number) => void): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableMergeSort<TItem>(this: Iterable<TItem>, comparator: (a: TItem, b: TItem) => number): TItem[] & ILibraryMethods<TItem, TMethods>;
+  enumerableSkip<TItem>(this: Iterable<TItem>, skipCount: number): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableTake<TItem>(this: Iterable<TItem>, takeCount: number): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
 
   enumerableReduce<TItem, TInitValue, TResult>(this: Iterable<TItem>,
     getNewValue: (previousResult: TItem | TInitValue | TResult | undefined, item: TItem) => TResult, initialValue?: TInitValue | undefined | TResult)

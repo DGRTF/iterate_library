@@ -16,6 +16,9 @@ import getEnumerableFilterStrict from "./functionsWhichReturnIterator/getEnumera
 import getEnumerableFlatMap from "./functionsWhichReturnIterator/getEnumerableFlatMap";
 import getEnumerableForEachLazy from "./functionsWhichReturnIterator/getEnumerableForEachLazy";
 import getEnumerableMap from "./functionsWhichReturnIterator/getEnumerableMap";
+import getEnumerableSkip from "./functionsWhichReturnIterator/getEnumerableSkip";
+import getEnumerableTake from "./functionsWhichReturnIterator/getEnumerableTake";
+import getEnumerableMergeSort from './getEnumerableMergeSort';
 import { type ILibraryMethods } from "./types";
 
 // export const getObjectCopyWithIterableMethods = <TObject extends Iterable<TItem>, TItem>(object: TObject) => {
@@ -54,6 +57,9 @@ const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TIte
     enumerableMap: getEnumerableMap(libraryMethods),
     enumerableFilterStrict: getEnumerableFilterStrict(libraryMethods),
     enumerableFlatMap: getEnumerableFlatMap(libraryMethods),
+    enumerableMergeSort: getEnumerableMergeSort(libraryMethods),
+    enumerableSkip: getEnumerableSkip(libraryMethods),
+    enumerableTake: getEnumerableTake(libraryMethods),
   };
 
   for (const [methodName, method] of Object.entries(innerMethods))
@@ -64,3 +70,4 @@ const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TIte
 
   return object as ILibraryMethods<TItem, TMethods> & TObject;
 }
+

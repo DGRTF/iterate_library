@@ -1,4 +1,5 @@
-import { addIterableMethodsInArray } from './index';
+import { addIterableMethodsInArray, addIterableMethodsInObject } from './index';
+import getEnumerableMergeSort from './getEnumerableMergeSort';
 
 interface IRating {
   rating: number;
@@ -317,4 +318,48 @@ test('check counters', () => {
   // array.enumerableReduce(checkCountForReduce);
   array.enumerableReduceStrict(checkCountForReduce, false);
   array.enumerableFlatMap(checkCountForFlatMap);
+});
+
+it.each([
+  [[6, 5, 3, 1, 8, 9, 7, 2, 4], [1, 2, 3, 4, 5, 6, 7, 8, 9], false, true],
+  [[6, 5, 3, 1, 8, 7, 2, 4], [1, 2, 3, 4, 5, 6, 7, 8], false, true],
+  [[], [], true, false]
+])('enumerableMergeSort', (array: number[], expectedResult: number[], expectedEvery: boolean, expectedSome: boolean) => {
+  let count = 0;
+  const newArray = addIterableMethodsInArray(array);
+  const actual = newArray.enumerableMergeSort((a, b) => {
+    count++;
+    return a - b;
+  });
+
+  const every = actual.enumerableEvery(x => x > 5);
+  const some = actual.enumerableSome(x => x > 5);
+
+  expect(actual.map(x => x)).toEqual(expectedResult);
+  expect(every).toBe(expectedEvery);
+  expect(some).toEqual(expectedSome);
+});
+
+it.each([
+  [getArray(), [4, 5]],
+  [getEmptyArray(), []],
+])('enumerableSkip', (array: ReturnType<typeof getArray>, expectedResult: number[]) => {
+  const result = array
+    .enumerableSkip(3)
+    .enumerableMap(x => x.rating)
+    .enumerableToArray();
+
+  expect(result).toEqual(expectedResult);
+});
+
+it.each([
+  [getArray(), [1, 2, 3]],
+  [getEmptyArray(), []],
+])('enumerableTake', (array: ReturnType<typeof getArray>, expectedResult: number[]) => {
+  const result = array
+    .enumerableTake(3)
+    .enumerableMap(x => x.rating)
+    .enumerableToArray();
+
+  expect(result).toEqual(expectedResult);
 });
