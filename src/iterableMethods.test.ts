@@ -343,6 +343,7 @@ test('enumerableMergeSort', () => {
   const array = addIterableMethodsInArray(getArray());
 
   expect(() => array.enumerableMergeSort(a => a as any)).toThrow();
+  expect(() => array.enumerableMergeSort(a => NaN)).toThrow();
 });
 
 it.each([

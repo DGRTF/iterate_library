@@ -92,4 +92,7 @@ const addMethodsInArray = <TItem, TMethods extends Object>(array: TItem[], metho
 const checkCompareResult = (compareResult: number) => {
   if (typeof compareResult !== 'number')
     throw new TypeError(`Comparator returned ${typeof compareResult} instead a number!`);
+
+  if (Number.isNaN(compareResult))
+    throw new TypeError(`Comparator returned NaN!`);
 }
