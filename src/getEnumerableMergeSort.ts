@@ -28,6 +28,7 @@ export default <TMethods extends Object>(methods: TMethods) =>
         }
 
         const compareResult = comparator(first[first.length - 1], second[second.length - 1]);
+        checkCompareResult(compareResult);
 
         compareResult > 0 ?
           resultTuple[firstSecondIndex] = first.pop() as TItem :
@@ -49,12 +50,6 @@ export default <TMethods extends Object>(methods: TMethods) =>
     return addMethodsInArray(resultAccumulate[0], methods);
   }
 
-interface IAccumulateItem<TItem> {
-  isContainValue: boolean;
-  item: TItem | undefined;
-  index: number;
-}
-
 const getTuplesFromIterator = <TItem>(iterable: Iterable<TItem>, comparator: (a: TItem, b: TItem) => number) => {
   const accumulate: TItem[][] = [[]];
 
@@ -63,6 +58,7 @@ const getTuplesFromIterator = <TItem>(iterable: Iterable<TItem>, comparator: (a:
 
     if (tuple.length === 2) {
       const compareResult = comparator(tuple[0], tuple[1]);
+      checkCompareResult(compareResult);
 
       if (compareResult > 0)
         [tuple[0], tuple[1]] = [tuple[1], tuple[0]];
@@ -91,4 +87,9 @@ const addMethodsInArray = <TItem, TMethods extends Object>(array: TItem[], metho
     });
 
   return array;
+}
+
+const checkCompareResult = (compareResult: number) => {
+  if (typeof compareResult !== 'number')
+    throw new TypeError(`Comparator returned ${typeof compareResult} instead a number!`);
 }

@@ -279,7 +279,9 @@ test('enumerableToMap', () => {
     [1, { rating: 5, numbers: [5, 55, 555] }],
     [0, { rating: 4, numbers: [4, 44, 444] }],
   ]
-  const actualMap = getArray().enumerableToMap(x => x.rating % 2, x => x);
+  const actualMap = getArray()
+    .enumerableMergeSort((x, y) => x.rating - y.rating)
+    .enumerableToMap(x => x.rating % 2, x => x);
 
   expect([...actualMap]).toEqual(expectedResult);
 });
@@ -335,6 +337,12 @@ it.each([
   expect(actual.map(x => x)).toEqual(expectedResult);
   expect(every).toBe(expectedEvery);
   expect(some).toEqual(expectedSome);
+});
+
+test('enumerableMergeSort', () => {
+  const array = addIterableMethodsInArray(getArray());
+
+  expect(() => array.enumerableMergeSort(a => a as any)).toThrow();
 });
 
 it.each([
