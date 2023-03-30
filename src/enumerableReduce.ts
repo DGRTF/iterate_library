@@ -1,9 +1,13 @@
+import checkThatValueType from "./common/checkThatValue";
+import errorConstants from "./common/errorConstants";
+
 export default function enumerableReduce<TItem, TInitValue, TResult>(
   this: Iterable<TItem>,
   getNewValue: (previousResult: TItem | TInitValue | TResult | undefined, item: TItem
   ) =>
     TResult, initialValue?: TInitValue | undefined | TResult): TInitValue | TItem | TResult | undefined {
 
+  checkThatValueType(this[Symbol.iterator]).isFunction(errorConstants.iteratorError);
   let iterateResult: TResult | undefined;
   let iterationCount = 0;
   let firstElement: TItem | undefined;

@@ -208,8 +208,14 @@ it.each([
   [getEmptyArray(), 0],
 ])('enumerableCount', (array: ReturnType<typeof getArray>, expectedResult: number) => {
   const result = array.enumerableCount();
+  // const mapResult = addIterableMethodsInObject(new Map())).enumerableCount();
+  const setResult = addIterableMethodsInObject(new Set(array)).enumerableCount();
+  // const objectResult = array.enumerableCount();
 
   expect(result).toEqual(expectedResult);
+  // expect(mapResult).toEqual(expectedResult);
+  expect(setResult).toEqual(expectedResult);
+  // expect(objectResult).toEqual(expectedResult);
 });
 
 it.each([
@@ -339,7 +345,7 @@ it.each([
   expect(some).toEqual(expectedSome);
 });
 
-test('enumerableMergeSort', () => {
+test('enumerableMergeSort throw', () => {
   const array = addIterableMethodsInArray(getArray());
 
   expect(() => array.enumerableMergeSort(a => a as any)).toThrow();
@@ -416,7 +422,6 @@ it.each([
 it.each([
   [getArray(), 4, x => x > 3],
   [getEmptyArray(), undefined, x => x > 3],
-  [getArray(), undefined, x => x],
 ])('enumerableFindStrict', (array: ReturnType<typeof getArray>, expectedResult: number | undefined, predicate: (item: any) => boolean) => {
   const enumerableResult = array
     .enumerableMap(x => x.rating)

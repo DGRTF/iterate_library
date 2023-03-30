@@ -1,5 +1,10 @@
+import checkThatValueType from "./common/checkThatValue";
+import errorConstants from "./common/errorConstants";
+
 export default <TMethods extends Object>(methods: TMethods) =>
   function enumerableMergeSort<TItem>(this: Iterable<TItem>, comparator: (a: TItem, b: TItem) => number) {
+    checkThatValueType(comparator).isFunction();
+    checkThatValueType(this[Symbol.iterator]).isFunction(errorConstants.iteratorError);
     let accumulate = getTuplesFromIterator(this, comparator);
 
     if (accumulate[0].length < 2)
@@ -15,9 +20,6 @@ export default <TMethods extends Object>(methods: TMethods) =>
       let firstSecondIndex = first.length + second.length - 1;
 
       while (true) {
-        if (first.length === 0 && second.length === 0)
-          break;
-
         if (first.length == 0) {
           addReverse(second, resultTuple);
           break;
@@ -89,10 +91,5 @@ const addMethodsInArray = <TItem, TMethods extends Object>(array: TItem[], metho
   return array;
 }
 
-const checkCompareResult = (compareResult: number) => {
-  if (typeof compareResult !== 'number')
-    throw new TypeError(`Comparator returned ${typeof compareResult} instead a number!`);
-
-  if (Number.isNaN(compareResult))
-    throw new TypeError(`Comparator returned NaN!`);
-}
+const checkCompareResult = (compareResult: number) =>
+  checkThatValueType(compareResult).isNumber().isNotNaN();

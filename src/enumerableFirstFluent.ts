@@ -1,32 +1,36 @@
+import checkThatValueType from "./common/checkThatValue";
+import errorConstants from "./common/errorConstants";
+
 export default function enumerableFirstFluent<TItem>(this: Iterable<TItem>): IFirstFluentResult<TItem> {
+  checkThatValueType(this[Symbol.iterator]).isFunction(errorConstants.iteratorError);
   let result = undefined as TItem;
-  let was = false;
+  let isFound = false;
 
   for (const item of this) {
     result = item;
-    was = true;
+    isFound = true;
 
     break;
   }
 
   return {
     IfFound(func: (item: TItem) => void) {
-      if (was)
+      if (isFound)
         func(result);
 
       return {
         IfNotFound: (func: () => void) => {
-          was ? undefined : func()
+          isFound ? undefined : func()
         },
       };
     },
     IfNotFound(func: () => void) {
-      if (!was)
+      if (!isFound)
         func();
 
       return {
         IfFound: (func: (item: TItem) => void) => {
-          was ? func(result) : undefined
+          isFound ? func(result) : undefined
         },
       };
     }

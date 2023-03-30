@@ -1,4 +1,12 @@
-export default function enumerableToMap<TItem, TKey, TValue>(this: Iterable<TItem>, getKey: (item: TItem, iterationCount: number) => TKey, getValue: (item: TItem, iterationCount: number) => TValue): Map<TKey, TValue> {
+import checkThatValueType from "./common/checkThatValue";
+import errorConstants from "./common/errorConstants";
+
+export default function enumerableToMap<TItem, TKey, TValue>(
+  this: Iterable<TItem>,
+  getKey: (item: TItem, iterationCount: number) => TKey,
+  getValue: (item: TItem, iterationCount: number) => TValue): Map<TKey, TValue> {
+
+  checkThatValueType(this[Symbol.iterator]).isFunction(errorConstants.iteratorError);
   const map = new Map();
   let iterationCount = 0;
 
