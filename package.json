@@ -1,6 +1,6 @@
 {
   "name": "iterate_library",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Iterate methods for iterable objects",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,7 +24,11 @@
     "iterator",
     "iterable",
     "methods",
-    "iterate_library"
+    "iterate_library",
+    "CSharp",
+    "Sharp",
+    "LINQ",
+    "linq"
   ],
   "author": "Unknown",
   "license": "Unlicense",
