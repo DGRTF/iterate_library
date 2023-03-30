@@ -15,6 +15,7 @@ import enumerableSomeStrict from "./enumerableSomeStrict";
 import enumerableToArray from "./enumerableToArray";
 import enumerableToMap from "./enumerableToMap";
 import enumerableToSet from "./enumerableToSet";
+import getEnumerableConcat from "./functionsWhichReturnIterator/getEnumerableConcat";
 import getEnumerableFilter from "./functionsWhichReturnIterator/getEnumerableFilter";
 import getEnumerableFilterStrict from "./functionsWhichReturnIterator/getEnumerableFilterStrict";
 import getEnumerableFlatMap from "./functionsWhichReturnIterator/getEnumerableFlatMap";
@@ -68,6 +69,7 @@ const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TIte
     enumerableMergeSort: getEnumerableMergeSort(libraryMethods),
     enumerableSkip: getEnumerableSkip(libraryMethods),
     enumerableTake: getEnumerableTake(libraryMethods),
+    enumerableConcat: getEnumerableConcat(libraryMethods),
   };
 
   for (const [methodName, method] of Object.entries(innerMethods))

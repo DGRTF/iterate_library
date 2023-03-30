@@ -40,6 +40,7 @@ interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableMergeSort<TItem>(this: Iterable<TItem>, comparator: (a: TItem, b: TItem) => number): TItem[] & ILibraryMethods<TItem, TMethods>;
   enumerableSkip<TItem>(this: Iterable<TItem>, skipCount: number): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
   enumerableTake<TItem>(this: Iterable<TItem>, takeCount: number): Generator<TItem, void, unknown> & TMethods & ILibraryMethods<TItem, TMethods>;
+  enumerableConcat<TItem>(this: Iterable<TItem>, ...sequences: (Iterable<TItem> | number)[]): Generator<TItem, void> & TMethods & ILibraryMethods<TItem, TMethods>;
 
   enumerableReduce<TItem, TInitValue, TResult>(this: Iterable<TItem>,
     getNewValue: (previousResult: TItem | TInitValue | TResult | undefined, item: TItem) => TResult, initialValue?: TInitValue | undefined | TResult)
