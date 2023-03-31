@@ -1,3 +1,4 @@
+import addIterableMethodsInIterableObject from "./common/addIterableMethodsInIterableObject";
 import checkThatValueType from "./common/checkThatValue";
 import errorConstants from "./common/errorConstants";
 
@@ -8,7 +9,7 @@ export default <TMethods extends Object>(methods: TMethods) =>
     let accumulate = getTuplesFromIterator(this, comparator);
 
     if (accumulate[0].length < 2)
-      return addMethodsInArray(accumulate[0], methods);
+      return addIterableMethodsInIterableObject(accumulate[0], methods);
 
     let resultAccumulate: TItem[][] = [];
 
@@ -49,7 +50,7 @@ export default <TMethods extends Object>(methods: TMethods) =>
       }
     }
 
-    return addMethodsInArray(resultAccumulate[0], methods);
+    return addIterableMethodsInIterableObject(resultAccumulate[0], methods);
   }
 
 const getTuplesFromIterator = <TItem>(iterable: Iterable<TItem>, comparator: (a: TItem, b: TItem) => number) => {
@@ -79,16 +80,6 @@ const addReverse = <TItem>(arr: TItem[], resultTuple: TItem[]) => {
   for (let i = 0; i < arr.length; i++) {
     resultTuple[i] = arr[i];
   }
-}
-
-const addMethodsInArray = <TItem, TMethods extends Object>(array: TItem[], methods: TMethods) => {
-  Object.entries(methods)
-    .forEach(x => {
-      const [method, methodName] = x;
-      array[method] = methodName;
-    });
-
-  return array;
 }
 
 const checkCompareResult = (compareResult: number) =>

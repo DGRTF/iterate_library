@@ -6,8 +6,6 @@ import type enumerableCount from "./enumerableCount";
 import type enumerableToArray from "./enumerableToArray";
 import type enumerableToMap from "./enumerableToMap";
 import type enumerableToSet from "./enumerableToSet";
-import type enumerableGroupToArray from "./enumerableGroupToArray";
-import type enumerableGroupToMap from "./enumerableGroupToMap";
 import type enumerableForEach from "./enumerableForEach";
 import type enumerableReduceStrict from "./enumerableReduceStrict";
 import type enumerableFirst from "./enumerableFirst";
@@ -24,8 +22,12 @@ interface ILibraryMethods<TItem, TMethods> extends Iterable<TItem> {
   enumerableToArray: typeof enumerableToArray;
   enumerableToMap: typeof enumerableToMap;
   enumerableToSet: typeof enumerableToSet;
-  enumerableGroupToArray: typeof enumerableGroupToArray;
-  enumerableGroupToMap: typeof enumerableGroupToMap;
+  enumerableGroupToArray<TItem, TKey>(this: Iterable<TItem>, getKey: (item: TItem, iterationCount: number) => TKey): [TKey, TItem[]][] & TMethods & ILibraryMethods<TItem, TMethods>;
+
+  enumerableGroupToMap<TItem, TKey>(
+    this: Iterable<TItem>,
+    getKey: (item: TItem, iterationCount: number) => TKey): Map<TKey, TItem[]> & TMethods & ILibraryMethods<TItem, TMethods>;
+
   enumerableForEach: typeof enumerableForEach;
   enumerableReduceStrict: typeof enumerableReduceStrict;
   enumerableFirst: typeof enumerableFirst;

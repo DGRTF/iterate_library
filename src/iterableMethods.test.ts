@@ -207,15 +207,21 @@ it.each([
   [getArray(), 5],
   [getEmptyArray(), 0],
 ])('enumerableCount', (array: ReturnType<typeof getArray>, expectedResult: number) => {
-  const result = array.enumerableCount();
-  // const mapResult = addIterableMethodsInObject(new Map())).enumerableCount();
+  const result = array.enumerableGroupToArray(x => x.rating).enumerableCount();
+  const mapResult = array.enumerableGroupToMap(x => x.rating).enumerableCount();
   const setResult = addIterableMethodsInObject(new Set(array)).enumerableCount();
-  // const objectResult = array.enumerableCount();
+
+  const objectResult = addIterableMethodsInObject({
+    *[Symbol.iterator]() {
+      for (const item of array)
+        yield item;
+    }
+  }).enumerableCount();
 
   expect(result).toEqual(expectedResult);
-  // expect(mapResult).toEqual(expectedResult);
+  expect(mapResult).toEqual(expectedResult);
   expect(setResult).toEqual(expectedResult);
-  // expect(objectResult).toEqual(expectedResult);
+  expect(objectResult).toEqual(expectedResult);
 });
 
 it.each([
@@ -249,7 +255,7 @@ test('enumerableGroupToArray', () => {
     { name: "cherries", type: "fruit", quantity: 5 },
     { name: "fish", type: "meat", quantity: 22 },
   ]);
-  const w = inventory.enumerableGroupToArray(({ quantity }) => quantity);
+  const w = inventory.enumerableGroupToArray(({ quantity }) => quantity).enumerableToArray();
 
   expect(w).toEqual([
     [9, [
