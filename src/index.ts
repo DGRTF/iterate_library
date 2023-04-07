@@ -29,16 +29,18 @@ import addMethodsInObject from "./common/addMethodsInObject";
 
 const enumerablePrefix = "enumerable";
 
-export const setMethodsAllPrototypes = <TPrototype, TPrefix extends string = typeof enumerablePrefix>(collections: { prototype: TPrototype }[], prefix: TPrefix = enumerablePrefix as TPrefix) =>
-  collections.forEach(x => addIterableMethodsInObject(x.prototype as any), prefix);
+export { type addPrefixToObject, type ILibraryMethods };
+
+export const setMethodsAllPrototypes = <TPrefix extends string = typeof enumerablePrefix>(collections: { prototype: any }[], prefix: TPrefix = enumerablePrefix as TPrefix) =>
+  collections.forEach(x => addIterableMethodsInObject(x.prototype as any, prefix));
 
 export const addIterableMethodsInObject =
   <TObject extends Iterable<TItem>, TItem, TPrefix extends string = typeof enumerablePrefix>(object: TObject, prefix: TPrefix = enumerablePrefix as TPrefix):
     addPrefixToObject<ILibraryMethods<TItem, {}, typeof enumerablePrefix>, typeof enumerablePrefix> & TObject =>
-    addIterableAndYourMethodsInObject(object, {}, prefix);
+    addIterableAndYourMethodsInObject(object, {}, prefix) as any;
 
 export const addIterableMethodsInArray = <TItem, TPrefix extends string = typeof enumerablePrefix>(object: TItem[], prefix: TPrefix = enumerablePrefix as TPrefix): addPrefixToObject<ILibraryMethods<TItem, {}, TPrefix>, TPrefix> & TItem[] =>
-  addIterableAndYourMethodsInObject(object, {}, prefix);
+  addIterableAndYourMethodsInObject(object, {}, prefix) as any;
 
 const addIterableAndYourMethodsInObject =
   <TObject extends Iterable<TItem>, TItem, TMethods extends {}, TPrefix extends string>(object: TObject, methods: TMethods, prefix: TPrefix) => {

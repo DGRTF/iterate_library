@@ -22,7 +22,7 @@ export default <TMethods extends {}>(methods: TMethods) =>
             if (nextSequence.done)
               return lastValue;
 
-            if (typeof nextSequence.value?.[Symbol.iterator] !== 'function')
+            if (typeof (nextSequence.value as any)?.[Symbol.iterator] !== 'function')
               return {
                 done: false,
                 value: nextSequence.value as TItem,

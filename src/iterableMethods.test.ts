@@ -1,9 +1,6 @@
 import getArray, { IRatingNumbers } from './commonForTests/getArray';
-import { addIterableMethodsInArray } from './index';
-
-
-
-
+import { addIterableMethodsInArray, setMethodsAllPrototypes } from './index';
+import { ILibraryMethods, addPrefixToObject } from './types';
 
 test('check counters', () => {
   const array = getArray();
@@ -70,3 +67,37 @@ test('addIterableMethodsInArray prefix', () => {
 
   expect(numbers).toEqual([1, 2, 3, 4, 5]);
 });
+
+test('setMethodsAllPrototypes', () => {
+  setMethodsAllPrototypes([
+    Array,
+    Map,
+    Set,
+  ],
+    myPrefixPrefix);
+
+  const result = [1, 2, 3, 4, 5].myPrefixMap(x => x + 2).myPrefixToArray();
+
+  const resultMap = new Map([
+    [1, { name: "One" }],
+    [2, { name: "Two" }],
+    [3, { name: "Three" }],
+  ])
+    .myPrefixMap(x => x[1].name)
+    .myPrefixToArray();
+
+  const resultSet = new Set([1, 2, 3, 4, 5, 1, 3, 5])
+    .myPrefixMap(x => x + 2)
+    .myPrefixToArray();
+
+  expect(result).toEqual([3, 4, 5, 6, 7]);
+  expect(resultMap).toEqual(["One", "Two", "Three"]);
+  expect(resultSet).toEqual([3, 4, 5, 6, 7]);
+});
+
+const myPrefixPrefix = "myPrefix";
+declare global {
+  interface Array<T> extends addPrefixToObject<ILibraryMethods<T, {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+  interface Map<K, V> extends addPrefixToObject<ILibraryMethods<[K, V], {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+  interface Set<T> extends addPrefixToObject<ILibraryMethods<T, {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+}
