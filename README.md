@@ -57,10 +57,123 @@ const resultNative = array
 ## API
 Все методы, которые совпадают с названиями стандртных работают примерно так же. Например метод с названием [`enumerableMap()`](#enumerableMap)  соответсвуют методу map() в стандартной библиотеке. Почти все методы, которые принимают функцию обратного вызова, передают в нее последним параметром количество итераций. Массив, естественно не передается, как в обычных методах массивов, т к методы работают с итератором, а не массивом.
 
+### Список методов:
+[`enumerableSome()`](#enumerableSome)
+
+[`enumerableSomeStrict()`](#enumerableSomeStrict)
+
+[`enumerableEvery()`](#enumerableEvery)
+
+[`enumerableCount()`](#enumerableCount)
+
+[`enumerableReduce()`](#enumerableReduce)
+
+[`enumerableReduceStrict()`](#enumerableReduceStrict)
+
+[`enumerableGroupToArray()`](#enumerableGroupToArray)
+
+[`enumerableGroupToMap()`](#enumerableGroupToMap)
+
+[`enumerableEveryStrict()`](#enumerableEveryStrict)
+
+[`enumerableToArray()`](#enumerableToArray)
+
+[`enumerableToSet()`](#enumerableToSet)
+
+[`enumerableToMap()`](#enumerableToMap)
+
+[`enumerableForEach()`](#enumerableForEach)
+
+[`enumerableFirst()`](#enumerableFirst)
+
+[`enumerableFirstFluent()`](#enumerableFirstFluent)
+
+[`enumerableFind()`](#enumerableFind)
+
+[`enumerableFindStrict()`](#enumerableFindStrict)
+
+[`enumerableForEachLazy()`](#enumerableForEachLazy)
+
+[`enumerableFilter()`](#enumerableFilter)
+
+[`enumerableMap()`](#enumerableMap)
+
+[`enumerableFilterStrict()`](#enumerableFilterStrict)
+
+[`enumerableFlatMap()`](#enumerableFlatMap)
+
+[`enumerableMergeSort()`](#enumerableMergeSort)
+
+[`enumerableSkip()`](#enumerableSkip)
+
+[`enumerableTake()`](#enumerableTake)
+
+[`enumerableConcat()`](#enumerableConcat)
+
+
 ### Перед использованием скачайте и подключите библиотеку:
 ```
 npm i iterate_library
 ```
+
+Начиная с версии 1.8.0 можно использовать префикс, который передается вторым параметром для встроеных методов библиотеки ```addIterableMethodsInArray()``` ```addIterableMethodsInObject()``` ```setMethodsAllPrototypes()```. Префикс по-умолчанию - "enumerable" Более того, если вы используете TS, то компилятор будет подсказывать вам о ваших методах уже с префиксами:
+
+```typescript
+import { addIterableMethodsInArray } from "iterate_library";
+
+const result = addIterableMethodsInArray([1, 2, 3, 4, 5], "myPrefix").myPrefixMap(x => x + 2);
+// result:
+[3, 4, 5, 6, 7]
+```
+
+![Tooltip_all_methods](forDoc/tooltip_all_methods.png)
+
+![Tooltip](forDoc/tooltip.png)
+
+Для использования с прототипами перечислимых типов используйте:
+
+```typescript
+import { setMethodsAllPrototypes, ILibraryMethods, addPrefixToObject } from 'iterate_library';
+
+const myPrefixPrefix = "myPrefix";
+
+declare global {
+  interface Array<T> extends addPrefixToObject<ILibraryMethods<T, {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+  interface Map<K, V> extends addPrefixToObject<ILibraryMethods<[K, V], {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+  interface Set<T> extends addPrefixToObject<ILibraryMethods<T, {}, typeof myPrefixPrefix>, typeof myPrefixPrefix> { }
+}
+
+setMethodsAllPrototypes([
+    Array,
+    Map,
+    Set,
+  ],
+    "myPrefix");
+
+  const result = [1, 2, 3, 4, 5].myPrefixMap(x => x + 2).myPrefixToArray();
+  // result:
+  [3, 4, 5, 6, 7]
+
+  const resultMap = new Map([
+    [1, { name: "One" }],
+    [2, { name: "Two" }],
+    [3, { name: "Three" }],
+  ])
+    .myPrefixMap(x => x[1].name)
+    .myPrefixToArray();
+  // resultMap: 
+  [ "One", "Two", "Three" ];
+
+
+  const resultSet = new Set([1, 2, 3, 4, 5, 1, 3, 5])
+    .myPrefixMap(x => x + 2)
+    .myPrefixToArray();
+  // resultSet: 
+  [1, 2, 3, 4, 5]
+
+```
+
+Использование с конкретным объектом:
 
 ```typescript
 import { addIterableMethodsInArray, addIterableMethodsInObject } from "iterate_library";
@@ -95,7 +208,7 @@ const array = addIterableMethodsInArray([
 const arr = addIterableMethodsInObject<string[], string>();
 ```
 
-,что не удобно. Функция ```addIterableMethodsInArray``` лишена этой проблемы, но может работать только с массивами с точки зрения TS.
+,что не очень удобно. Функция ```addIterableMethodsInArray``` лишена этой проблемы, но может работать только с массивами с точки зрения TS.
 Оба этих метода добавляют в существующий объект методы, не создавая новый, т к создать новый массив будет занимать время O(n), что невилирует актуальность бибилотеки.
 
 ### enumerableMap()
@@ -314,3 +427,15 @@ const resultNative = array.flatMap(x => x.numbers);
 // result, resultNative:
 [1, 11, 111, 2, 22, 222, 3, 33, 333, 4, 44, 444, 5, 55, 555]
 ```
+
+### enumerableCount()
+### enumerableReduce()
+### enumerableReduceStrict()
+### enumerableFirst()
+### enumerableFirstFluent()
+### enumerableFind()
+### enumerableFindStrict()
+### enumerableMergeSort()
+### enumerableSkip()
+### enumerableTake()
+### enumerableConcat()
