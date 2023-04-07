@@ -24,60 +24,58 @@ import getEnumerableMap from "./functionsWhichReturnIterator/getEnumerableMap";
 import getEnumerableSkip from "./functionsWhichReturnIterator/getEnumerableSkip";
 import getEnumerableTake from "./functionsWhichReturnIterator/getEnumerableTake";
 import getEnumerableMergeSort from './getEnumerableMergeSort';
-import { type ILibraryMethods } from "./types";
+import { type addPrefixToObject, type ILibraryMethods } from "./types";
+import addMethodsInObject from "./common/addMethodsInObject";
 
-// export const getObjectCopyWithIterableMethods = <TObject extends Iterable<TItem>, TItem>(object: TObject) => {
-//   return Array.isArray(object) ? addIterableAndYourMethodsInObject([...object], {}) :
-//     addIterableAndYourMethodsInObject({ ...object }, {});
-// }
+const enumerablePrefix = "enumerable";
 
-export const setMethodsAllPrototypes = <TPrototype>(collections: { prototype: TPrototype }[]) =>
-  collections.forEach(x => addIterableMethodsInObject(x.prototype as any));
+export const setMethodsAllPrototypes = <TPrototype, TPrefix extends string = typeof enumerablePrefix>(collections: { prototype: TPrototype }[], prefix: TPrefix = enumerablePrefix as TPrefix) =>
+  collections.forEach(x => addIterableMethodsInObject(x.prototype as any), prefix);
 
-export const addIterableMethodsInObject = <TObject extends Iterable<TItem>, TItem>(object: TObject): ILibraryMethods<TItem, {}> & TObject =>
-  addIterableAndYourMethodsInObject(object, {});
+export const addIterableMethodsInObject =
+  <TObject extends Iterable<TItem>, TItem, TPrefix extends string = typeof enumerablePrefix>(object: TObject, prefix: TPrefix = enumerablePrefix as TPrefix):
+    addPrefixToObject<ILibraryMethods<TItem, {}, typeof enumerablePrefix>, typeof enumerablePrefix> & TObject =>
+    addIterableAndYourMethodsInObject(object, {}, prefix);
 
-export const addIterableMethodsInArray = <TItem>(object: TItem[]): ILibraryMethods<TItem, {}> & TItem[] =>
-  addIterableAndYourMethodsInObject(object, {});
+export const addIterableMethodsInArray = <TItem, TPrefix extends string = typeof enumerablePrefix>(object: TItem[], prefix: TPrefix = enumerablePrefix as TPrefix): addPrefixToObject<ILibraryMethods<TItem, {}, TPrefix>, TPrefix> & TItem[] =>
+  addIterableAndYourMethodsInObject(object, {}, prefix);
 
-const addIterableAndYourMethodsInObject = <TObject extends Iterable<TItem>, TItem, TMethods extends {}>(object: TObject, methods: TMethods) => {
-  const libraryMethods = { ...methods };
+const addIterableAndYourMethodsInObject =
+  <TObject extends Iterable<TItem>, TItem, TMethods extends {}, TPrefix extends string>(object: TObject, methods: TMethods, prefix: TPrefix) => {
 
-  const innerMethods = {
-    enumerableSome,
-    enumerableSomeStrict,
-    enumerableEvery,
-    enumerableCount,
-    enumerableReduce,
-    enumerableReduceStrict,
-    enumerableGroupToArray: getEnumerableGroupToArray(libraryMethods),
-    enumerableGroupToMap: getEnumerableGroupToMap(libraryMethods),
-    enumerableEveryStrict,
-    enumerableToArray,
-    enumerableToSet,
-    enumerableToMap,
-    enumerableForEach,
-    enumerableFirst,
-    enumerableFirstFluent,
-    enumerableFind,
-    enumerableFindStrict,
-    enumerableForEachLazy: getEnumerableForEachLazy(libraryMethods),
-    enumerableFilter: getEnumerableFilter(libraryMethods),
-    enumerableMap: getEnumerableMap(libraryMethods),
-    enumerableFilterStrict: getEnumerableFilterStrict(libraryMethods),
-    enumerableFlatMap: getEnumerableFlatMap(libraryMethods),
-    enumerableMergeSort: getEnumerableMergeSort(libraryMethods),
-    enumerableSkip: getEnumerableSkip(libraryMethods),
-    enumerableTake: getEnumerableTake(libraryMethods),
-    enumerableConcat: getEnumerableConcat(libraryMethods),
-  };
+    const libraryMethods = { ...methods };
 
-  for (const [methodName, method] of Object.entries(innerMethods))
-    (libraryMethods as any)[methodName] = method;
+    const innerMethods = {
+      [prefix + "Some"]: enumerableSome,
+      [prefix + "SomeStrict"]: enumerableSomeStrict,
+      [prefix + "Every"]: enumerableEvery,
+      [prefix + "Count"]: enumerableCount,
+      [prefix + "Reduce"]: enumerableReduce,
+      [prefix + "ReduceStrict"]: enumerableReduceStrict,
+      [prefix + "GroupToArray"]: getEnumerableGroupToArray(libraryMethods),
+      [prefix + "GroupToMap"]: getEnumerableGroupToMap(libraryMethods),
+      [prefix + "EveryStrict"]: enumerableEveryStrict,
+      [prefix + "ToArray"]: enumerableToArray,
+      [prefix + "ToSet"]: enumerableToSet,
+      [prefix + "ToMap"]: enumerableToMap,
+      [prefix + "ForEach"]: enumerableForEach,
+      [prefix + "First"]: enumerableFirst,
+      [prefix + "FirstFluent"]: enumerableFirstFluent,
+      [prefix + "Find"]: enumerableFind,
+      [prefix + "FindStrict"]: enumerableFindStrict,
+      [prefix + "ForEachLazy"]: getEnumerableForEachLazy(libraryMethods),
+      [prefix + "Filter"]: getEnumerableFilter(libraryMethods),
+      [prefix + "Map"]: getEnumerableMap(libraryMethods),
+      [prefix + "FilterStrict"]: getEnumerableFilterStrict(libraryMethods),
+      [prefix + "FlatMap"]: getEnumerableFlatMap(libraryMethods),
+      [prefix + "MergeSort"]: getEnumerableMergeSort(libraryMethods),
+      [prefix + "Skip"]: getEnumerableSkip(libraryMethods),
+      [prefix + "Take"]: getEnumerableTake(libraryMethods),
+      [prefix + "Concat"]: getEnumerableConcat(libraryMethods),
+    };
 
-  for (const [methodName, method] of Object.entries(libraryMethods))
-    (object as any)[methodName] = method;
+    object = addMethodsInObject(object, addMethodsInObject(libraryMethods, innerMethods));
 
-  return object as ILibraryMethods<TItem, TMethods> & TObject;
-}
+    return object as addPrefixToObject<ILibraryMethods<TItem, TMethods, TPrefix>, TPrefix> & TObject;
+  }
 

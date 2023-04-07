@@ -9,7 +9,6 @@ export default function <TItem, TOutItem, TMethods extends {}>
   : Generator<TOutItem, void> & TMethods {
 
   checkThatValueType(enumerableObject[Symbol.iterator]).isFunction(errorConstants.iteratorError);
-  let isContinue = true;
 
   const it = iterator(enumerableObject);
   let iterationCount = -1;
@@ -18,7 +17,7 @@ export default function <TItem, TOutItem, TMethods extends {}>
     ...getItemWithoutNext(it, methods),
 
     next(...args: [] | [unknown]): IteratorResult<TOutItem, void> {
-      while (isContinue) {
+      while (true) {
         iterationCount++;
         const result = it.next(...args);
 
@@ -38,8 +37,6 @@ export default function <TItem, TOutItem, TMethods extends {}>
           value: resultContinue.value,
         };
       }
-
-      return lastValue;
     },
   };
 }
